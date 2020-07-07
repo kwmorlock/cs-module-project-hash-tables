@@ -25,7 +25,7 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = [None]*capacity
+        self.capacity = [None] * capacity
 
 
     def get_num_slots(self):
@@ -49,7 +49,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return self.length/self.get_num_slots()
+        # return self.length/self.get_num_slots()
 
 
     def fnv1(self, key):
@@ -69,9 +69,9 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
-        hash=5381
+        hash = 5381
         for x in key:
-            hash = ((hash<<5)+hash)+ord(x)
+            hash = (( hash << 5) + hash) + ord(x)
         return hash & 0xFFFFFFFF
         
 
@@ -123,6 +123,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.capacity[self.hash_index(key)]
+
+        # just getting the value with the given key
 
 
     def resize(self, new_capacity):
