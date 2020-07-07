@@ -82,7 +82,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.djb2(key) % len(self.capacity)
 
     def put(self, key, value):
         """
@@ -93,6 +93,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        self.capacity[self.hash_index(key)] = value
+
+        # we are trying to store value with given key, so we get from the hash
+        # table, and we are getting from the slot the key value and we are
+        # reassigning the key value into our put method
 
 
     def delete(self, key):
@@ -104,6 +109,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        self.capacity[self.hash_index(key)] = None
+
+        # when we delete we remove the value from the keyvalue and setting it to None
 
 
     def get(self, key):
