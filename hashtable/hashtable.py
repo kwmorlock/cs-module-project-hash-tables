@@ -7,9 +7,12 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    # Has to have a key and value pair (kind of like an object) self.next = none we are trying to implement a linked list, but thats for day 2
+
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
+# min capacity can be any number, but set to 8 for the min capacity in our hash table
 
 
 class HashTable:
@@ -22,6 +25,7 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
+        self.capacity = [None]*capacity
 
 
     def get_num_slots(self):
@@ -34,7 +38,7 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        # Your code heres
 
 
     def get_load_factor(self):
