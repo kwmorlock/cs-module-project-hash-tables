@@ -123,7 +123,23 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return self.capacity[self.hash_index(key)]
+        # return self.capacity[self.hash_index(key)]
+
+        index = self.hash_index(key)
+        hash_entry = self.capacity[index] #getting keyvalue pair from hashtable, stored as index variable, index from previous line
+        if self.capacity[index] is not None: #two conditions (two ifs) if slot isnt empty
+            while hash_entry.next is not None: #if the next entry slot is not none
+                if hash_entry.key == key: #if has the key then we return value thats paired with the key
+                    return hash_entry.value
+        return None
+        #     cur = self.capacity[index]
+
+        #     while cur is not None:
+        #         if cur.key == key:
+        #             return cur.value
+        #         cur = cur.next
+        # else:
+        #     return None
 
         # just getting the value with the given key
 
@@ -173,3 +189,18 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+
+
+# singly linked lists more effecient than doubly linked lists even though doubley is easier 
+# to delete from
+
+
+# trade off of memory for speed
+
+# array of linked lists to store multiple things by index
+
+# shorter the linked lists are the better
+
+# same key again in dictionary it overwrites previous value
+
+# everytime you do put or get you have to search it
