@@ -26,6 +26,7 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = [None] * capacity
+        self.length = 0 #acts as our counter, so we can keep track of what we are adding so we dont have to traverse through whole hash table to find keyvalue pair
 
 
     def get_num_slots(self):
@@ -49,7 +50,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # return self.length/self.get_num_slots()
+        return self.length/self.get_num_slots()
 
 
     def fnv1(self, key):
@@ -93,7 +94,29 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.capacity[self.hash_index(key)] = value
+        # self.capacity[self.hash_index(key)] = value
+        index = self.hash_index(key)
+        #with put we want to update value unlike get that grabs key value
+        
+        if self.capacity[index] is not None: #checking to make sure slot isnt none
+            if self.capacity[index].value is not None: #if value in slot isnt empty
+                cur = self.capacity[index] #setting current pointer to the slot its pointing to first
+                self.capacity[index] = HashTableEntry(key, value) #using class from start to make it a linkedlist, key and value are parameters from define init to link it
+                self.capacity[index].next = cur #making sure the next pointer will be updated to the new current value
+                
+                self.length += 1 
+                if self.get_load_factor() >= 0.7: #if load factor is greater or equal to .7 we will double the slots
+                    self.resize(MIN_CAPACITY * 2)
+                return 
+        self.capacity[index] = HashTableEntry(key, value)
+
+        self.length += 1
+
+        if self.get_load_factor() >= 0.7:
+            self.resize(MIN_CAPACITY * 2)
+
+
+
 
         # we are trying to store value with given key, so we get from the hash
         # table, and we are getting from the slot the key value and we are
@@ -109,7 +132,11 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.capacity[self.hash_index(key)] = None
+        # self.capacity[self.hash_index(key)] = None
+
+        self.put(key, None) #calling put method we made, we are grabbingkey value pair and assigning value to None
+
+
 
         # when we delete we remove the value from the keyvalue and setting it to None
 
