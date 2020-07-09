@@ -3,12 +3,12 @@
 # import math
 # import random
 
-# cache = {}
+cache = {}
 
 
 def expensive_seq(x, y, z):
     # Your code here
-    cache = {}
+    # cache = {}
     n = (x, y, z)
     if n in cache:
         return cache[n]
