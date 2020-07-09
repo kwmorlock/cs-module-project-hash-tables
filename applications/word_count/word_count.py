@@ -1,10 +1,10 @@
-ignore = [", :, ;, ,, ., -, +, =, /, \, |, [, ], {, }, (, ), *, ^, &]
+# ignore = [", :, ;, ,, ., -, +, =, /, \, |, [, ], {, }, (, ), *, ^, &]
 
 def word_count(s):
     # Your code here
-    s.lower()
-    dictionary = {}
-    s.split()
+    # s.lower()
+    # dictionary = {}
+    # s.split()
 
 
 
