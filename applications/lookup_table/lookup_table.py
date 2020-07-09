@@ -1,4 +1,6 @@
 # Your code here
+import math #import math since it was used but not imported
+import random #random import since it was used and not imported 
 
 
 def slowfun_too_slow(x, y):
@@ -8,6 +10,11 @@ def slowfun_too_slow(x, y):
     v %= 982451653
 
     return v
+
+cache = {
+
+}
+
 
 def slowfun(x, y):
     """
