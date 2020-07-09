@@ -7,9 +7,12 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    # Has to have a key and value pair (kind of like an object) self.next = none we are trying to implement a linked list, but thats for day 2
+
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
+# min capacity can be any number, but set to 8 for the min capacity in our hash table
 
 
 class HashTable:
@@ -22,6 +25,10 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
+        self.capacity = [None] * MIN_CAPACITY
+        self.length = 0 #acts as our counter, so we can keep track of what we are adding so we dont have to traverse through whole hash table to find keyvalue pair
+
+        #look into self.storage
 
 
     def get_num_slots(self):
@@ -34,7 +41,8 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        # Your code heres
+        return len(self.capacity)
 
 
     def get_load_factor(self):
@@ -44,6 +52,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.length/self.get_num_slots()
 
 
     def fnv1(self, key):
@@ -63,6 +72,11 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        hash = 5381
+        for x in key:
+            hash = (( hash << 5) + hash) + ord(x)
+        return hash & 0xFFFFFFFF
+        
 
 
     def hash_index(self, key):
@@ -71,7 +85,7 @@ class HashTable:
         between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.djb2(key) % len(self.capacity)
 
     def put(self, key, value):
         """
@@ -82,6 +96,39 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # self.capacity[self.hash_index(key)] = value
+        
+        
+        #with put we want to update value unlike get that grabs key value
+        index = self.hash_index(key)
+
+        if self.capacity[index] is not None: #checking to make sure slot isnt none
+            if self.capacity[index].value is not None: #if value in slot isnt empty
+                current = self.capacity[index] #setting current pointer to the slot its pointing to first
+                self.capacity[index] = HashTableEntry(key,value) #using class from start to make it a linkedlist, key and value are parameters from define init to link it
+                self.capacity[index].next = current #making sure the next pointer will be updated to the new current value
+                
+                self.length +=1 
+
+                if self.get_load_factor() >= 0.7: #if load factor is greater or equal to .7 we will double the slots
+                    self.resize(MIN_CAPACITY * 2)
+                return 
+
+
+        self.capacity[index] = HashTableEntry(key, value)
+
+
+        self.length +=1
+
+        if self.get_load_factor() >= 0.7:
+            self.resize(MIN_CAPACITY * 2)
+
+
+
+
+        # we are trying to store value with given key, so we get from the hash
+        # table, and we are getting from the slot the key value and we are
+        # reassigning the key value into our put method
 
 
     def delete(self, key):
@@ -93,6 +140,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # self.capacity[self.hash_index(key)] = None
+
+        self.put(key, None) #calling put method we made, we are grabbingkey value pair and assigning value to None
+        self.length -=1
+
+
+
+        # when we delete we remove the value from the keyvalue and setting it to None
 
 
     def get(self, key):
@@ -104,6 +159,30 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # return self.capacity[self.hash_index(key)]
+
+        index = self.hash_index(key)
+        hash_entry = self.capacity[index] #getting keyvalue pair from hashtable, stored as index variable, index from previous line
+
+        if hash_entry is not None: #two conditions (two ifs) if slot isnt empty
+            while hash_entry.next is not None: #if the next entry slot is not none
+                if hash_entry.key == key: #if has the key then we return value thats paired with the key
+                    return hash_entry.value
+                hash_entry = hash_entry.next
+
+            return hash_entry.value
+
+        return None
+        #     cur = self.capacity[index]
+
+        #     while cur is not None:
+        #         if cur.key == key:
+        #             return cur.value
+        #         cur = cur.next
+        # else:
+        #     return None
+
+        # just getting the value with the given key
 
 
     def resize(self, new_capacity):
@@ -114,6 +193,21 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        global MIN_CAPACITY #calling global keyword that allows for you to alter the global variable min capacity that was declared from the start outside of the class
+        MIN_CAPACITY = new_capacity #reset min capacity to new capacity that comes from resize method
+
+        current = self.capacity #setting current pointer in hashtable
+
+        self.capacity = [None] * MIN_CAPACITY #have to initialize it again from new hashtable
+
+        for x in current: # if x is current node we are looking at
+            if (x is not None): #if x is not none
+                if (x.next is not None): #if next node is also not none
+                        pointer = x.next #pointer will then point to next node if conditions are met
+                        while pointer is not None: #if pointer is pointing to a node that isnt node, then we will update put with new key value pair the pointer is pointing to
+                            self.put(pointer.key, pointer.value)
+                            pointer = x.next #pointer will now be assigned to next node in the list
+                self.put(x.key, x.value) #if we dont have a next node in the list we will update the value for current node we are pointing at
 
 
 
@@ -151,3 +245,23 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+
+
+# singly linked lists more effecient than doubly linked lists even though doubley is easier 
+# to delete from
+
+
+# trade off of memory for speed
+
+# array of linked lists to store multiple things by index
+
+# shorter the linked lists are the better
+
+# same key again in dictionary it overwrites previous value
+
+# everytime you do put or get you have to search it
+
+
+#day 3
+#can use dictionary or our own hashtable
+#some functions in tests rely on dictionary, so edit tests if using your own

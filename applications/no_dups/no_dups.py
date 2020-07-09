@@ -1,5 +1,17 @@
 def no_dups(s):
     # Your code here
+    cache = {}
+    string_thing = ""
+
+    for thing in s.split():
+        if thing not in cache:
+            string_thing += thing
+            string_thing += " "
+            cache[thing] = not False
+    string_thing = string_thing[:-1] #all but the last character?
+
+    return string_thing
+
 
 
 
