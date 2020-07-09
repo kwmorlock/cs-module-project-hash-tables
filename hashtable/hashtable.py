@@ -28,6 +28,8 @@ class HashTable:
         self.capacity = [None] * MIN_CAPACITY
         self.length = 0 #acts as our counter, so we can keep track of what we are adding so we dont have to traverse through whole hash table to find keyvalue pair
 
+        #look into self.storage
+
 
     def get_num_slots(self):
         """
@@ -191,21 +193,21 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        global MIN_CAPACITY
-        MIN_CAPACITY = new_capacity
+        global MIN_CAPACITY #calling global keyword that allows for you to alter the global variable min capacity that was declared from the start outside of the class
+        MIN_CAPACITY = new_capacity #reset min capacity to new capacity that comes from resize method
 
-        current = self.capacity
+        current = self.capacity #setting current pointer in hashtable
 
-        self.capacity = [None] * MIN_CAPACITY
+        self.capacity = [None] * MIN_CAPACITY #have to initialize it again from new hashtable
 
-        for x in current:
-            if (x is not None):
-                if (x.next is not None):
-                        pointer = x.next
-                        while pointer is not None:
+        for x in current: # if x is current node we are looking at
+            if (x is not None): #if x is not none
+                if (x.next is not None): #if next node is also not none
+                        pointer = x.next #pointer will then point to next node if conditions are met
+                        while pointer is not None: #if pointer is pointing to a node that isnt node, then we will update put with new key value pair the pointer is pointing to
                             self.put(pointer.key, pointer.value)
-                            pointer = x.next
-                self.put(x.key, x.value)
+                            pointer = x.next #pointer will now be assigned to next node in the list
+                self.put(x.key, x.value) #if we dont have a next node in the list we will update the value for current node we are pointing at
 
 
 
@@ -258,3 +260,8 @@ if __name__ == "__main__":
 # same key again in dictionary it overwrites previous value
 
 # everytime you do put or get you have to search it
+
+
+#day 3
+#can use dictionary or our own hashtable
+#some functions in tests rely on dictionary, so edit tests if using your own
